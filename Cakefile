@@ -4,6 +4,7 @@ task 'build', ->
     bundle [
         'lib/main.js'
         'lib/telepong.js'
+        'lib/puck.js'
         'lib/game.js'
     ], 'dist/telepong.js'
 

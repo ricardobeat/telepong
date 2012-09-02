@@ -1,4 +1,26 @@
 <!DOCTYPE html>
 
+<meta name="viewport" content="width=device-width" />
 <title>Telepong</title>
+<style>
+    body {
+        background: #111;
+        overflow: hidden;
+    }
+</style>
+<script src="http://10.127.100.152/socket.io/socket.io.js"></script>
 <script src="dist/telepong.js"></script>
+<canvas id="stage"></canvas>
+<script>
+(function(){
+
+    var stage = document.getElementById('stage')
+    stage.width = window.innerWidth
+    stage.height = window.innerHeight
+
+    var socket = io.connect('http://10.127.100.152')
+
+    new Telepong.Game(stage, socket).run()
+
+}())
+</script>

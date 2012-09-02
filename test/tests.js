@@ -21,9 +21,8 @@ describe('Game loop', function(){
         spyOn(game, 'step')
 
         waitsFor(function(){
-            console.log(game.step.callCount)
-            return game.step.callCount > 3
-        }, 'game.step() should have been called', 300)
+            return game.step.wasCalled
+        }, 'game.step() should have been called', 100)
 
     })
 
