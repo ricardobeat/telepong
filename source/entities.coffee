@@ -2,7 +2,7 @@
 # -----------
 
 class Entity
-    constructor: ->
+    constructor: (@game) ->
         @x = 0
         @y = 0
         @speedX = 0
@@ -33,11 +33,19 @@ class Telepong.Puck extends Entity
         @x += @speedX
         @y += @speedY
 
+        bottom = @y + @height
+
         if @y >= @boundaries.bottom
             @y = @boundaries.bottom
             @speedY *= -1
 
-        if @y <= 0
+        else if @y >= @game.paddle.y and @game.paddle.x < @x < @game.paddle.x + @game.paddle.width
+            @speedY *= -1
+            @y = @game.paddle.y - @height - 1
+            paddleCenter = @game.paddle.x + @game.paddle.width / 2
+            @speedX = Math.floor ((@x - paddleCenter) / @game.paddle.width) * 15
+
+        else if @y <= 0
             @speedY *= -1
             return
 
@@ -60,6 +68,8 @@ class Telepong.Puck extends Entity
         @speedX = data.speedX * -1
         @speedY = data.speedY * -1
 
+# Paddle
+# ------
 class Telepong.Paddle extends Entity
     constructor: ->
         super
@@ -68,11 +78,13 @@ class Telepong.Paddle extends Entity
         @x = Telepong.screen.width/2 - @width/2
         @y = Telepong.screen.height - 40
 
-        @setEventListeners()
-
-    setEventListeners: ->
-        Telepong.on 'keypress', (key) =>
-            if key is 'left' then @x -= 10
-            if key is 'right' then @x += 10
-
     update: ->
+        @x += @speedX
+        switch true
+            when Telepong.keys.left
+                @speedX = -8
+                #@speedX = Math.min -3, Math.max -12, @speedX *= 1.1
+            when Telepong.keys.right
+                @speedX = 8
+                #@speedX = Math.max 3, Math.min 12, @speedX *= 1.1
+            else @speedX = 0

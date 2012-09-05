@@ -21,14 +21,19 @@ _.extend Telepong,
         @enableKeyboardInput()
 
     enableKeyboardInput: ->
-        document.body.addEventListener 'keydown', (e) =>
-            key_name = switch e.keyCode
-                when 38 then 'up'
-                when 40 then 'down'
-                when 37 then 'left'
-                when 39 then 'right'
-            @emit 'keypress', key_name
+        @keys = {}
+        keymap =
+            38: 'up'
+            40: 'down'
+            37: 'left'
+            39: 'right'
 
+        document.body.addEventListener 'keydown', (e) =>
+            @keys[keymap[e.keyCode]] = true
+
+        document.body.addEventListener 'keyup', (e) =>
+            @keys[keymap[e.keyCode]] = false
+            
 
 # Game object
 # -----------
@@ -39,8 +44,8 @@ class Game
         @renderer = new RenderEngine @
 
         # Initialize game objects.
-        @puck = new Telepong.Puck
-        @paddle = new Telepong.Paddle
+        @puck = new Telepong.Puck @
+        @paddle = new Telepong.Paddle @
 
         @engine = new Telepong.Engine @
         @setListeners()
@@ -62,6 +67,7 @@ class Game
 
     update: ->
         @puck.update()
+        @paddle.update()
 
     passBall: (data) ->
         Telepong.emit 'passBall', data
