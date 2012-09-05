@@ -4,7 +4,7 @@ socketio = require 'socket.io'
 
 app = express()
 app.configure ->
-    app.use express.static "#{__dirname}"
+    app.use express.static "#{__dirname}/public"
 
 server = http.createServer(app)
 
@@ -18,4 +18,4 @@ io.sockets.on 'connection', (socket) ->
         console.log 'pass', data
         socket.broadcast.emit 'getBall', data
 
-server.listen 80
+server.listen 8000

@@ -5,11 +5,11 @@ task 'build', ->
     bundle [
         'lib/utils.coffee'
         'lib/telepong.coffee'
-    ], 'dist/telepong.js'
+    ], 'public/js/telepong.js'
 
 task 'watch', ->
 
     flour.minifiers['.js'] = (file, cb) -> cb file.buffer
 
     invoke 'build'
-    watch 'lib/*.js', -> invoke 'build'
+    watch 'source/*.coffee', -> invoke 'build'
