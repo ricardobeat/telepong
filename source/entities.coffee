@@ -8,6 +8,13 @@ class Entity
         @speedX = 0
         @speedY = 0
 
+    setBoundaries: ->
+        @boundaries = 
+            top    : 0
+            left   : 0
+            bottom : Telepong.screen.height - @height
+            right  : Telepong.screen.width - @width
+
     update: ->
 
 # Puck
@@ -22,12 +29,7 @@ class Telepong.Puck extends Entity
         @speedX = Math.ceil Math.random() * 5
         @speedY = 15
         @away = false
-
-        @boundaries = 
-            top    : 0
-            left   : 0
-            bottom : Telepong.screen.height - @height
-            right  : Telepong.screen.width - @width
+        @setBoundaries()
 
     update: ->
         @x += @speedX
@@ -73,18 +75,27 @@ class Telepong.Puck extends Entity
 class Telepong.Paddle extends Entity
     constructor: ->
         super
-        @width = 200
+        @width = Math.floor Telepong.screen.width / 4
+        @width = Math.max 100, Math.min 200, @width
         @height = 20
         @x = Telepong.screen.width/2 - @width/2
         @y = Telepong.screen.height - 40
+        @maxSpeed = Math.floor Telepong.screen.width / 50
+        @setBoundaries()
 
     update: ->
         @x += @speedX
         switch true
             when Telepong.keys.left
-                @speedX = -8
+                @speedX = -@maxSpeed
                 #@speedX = Math.min -3, Math.max -12, @speedX *= 1.1
             when Telepong.keys.right
-                @speedX = 8
+                @speedX = @maxSpeed
                 #@speedX = Math.max 3, Math.min 12, @speedX *= 1.1
             else @speedX = 0
+
+        if @x >= @boundaries.right
+            @x = @boundaries.right - 1
+
+        else if @x <= @boundaries.left
+            @x = @boundaries.left + 1
