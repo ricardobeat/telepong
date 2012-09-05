@@ -4,7 +4,7 @@
 # This is the main object. It holds the constructor for all game elements,
 # and emits events for communication between them.
 
-Telepong = new EventEmitter
+Telepong = new EventEmitter2
 
 _.extend Telepong,
     init: (options) ->
@@ -21,7 +21,7 @@ _.extend Telepong,
 class Game
     constructor: (RenderEngine) ->
 
-        @renderer = new RenderEngine
+        @renderer = new RenderEngine @
 
         # Initialize game objects.
         @puck = new Telepong.Puck

@@ -4,12 +4,25 @@ class Telepong.Canvas
     constructor: (@game) ->
         @running = false
 
-        Telepong.screen.width = window.innerWidth
-        Telepong.screen.height = window.innerHeight
-        
+        @canvas = document.createElement 'canvas'
+        @canvas.width = window.innerWidth
+        @canvas.height = window.innerHeight
+        document.body.appendChild @canvas
+
+        Telepong.screen.width = @canvas.width
+        Telepong.screen.height = @canvas.height
+
+        @ctx = @canvas.getContext '2d'
+
+        @last_frame = 0
+
         @step = _.bind @step, @
+        @render = _.bind @render, @
 
     render: ->
+
+        # Don't draw unless game has updated
+        return if @game.engine.frame is @last_frame
 
         # Clear the canvas
         @ctx.clearRect 0, 0, @canvas.width, @canvas.height
@@ -26,8 +39,7 @@ class Telepong.Canvas
 
     start: ->
         @running = true
-        requestAnimationFrame =>
-            @render()
+        requestAnimationFrame @step
 
     step: ->
         @render()

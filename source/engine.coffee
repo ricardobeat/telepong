@@ -26,6 +26,7 @@ class Telepong.Engine
             @game.update()
 
         @last_step = now
+        @frame++
         if @running then setTimeout @update, 1000/@fps
 
     start: ->

@@ -1,22 +1,40 @@
+# Base Entity
+# -----------
+
+class Entity
+    constructor: ->
+        @x = 0
+        @y = 0
+        @speedX = 0
+        @speedY = 0
+
+    update: ->
+
 # Puck
 # ----
 # The game's puck.
-class Telepong.Puck
+class Telepong.Puck extends Entity
     constructor: ->
+        super
         @width = 10
         @height = 10
         @x = Math.floor Telepong.screen.width / 2
-        @y = 10
         @speedX = Math.ceil Math.random() * 5
-        @speedY = 0
+        @speedY = 10
         @away = false
 
-    step: ->
+        @boundaries = 
+            top    : 0
+            left   : 0
+            bottom : Telepong.screen.height - @height
+            right  : Telepong.screen.width - @width
+
+    update: ->
         @x += @speedX
         @y += @speedY
 
-        if @y >= Telepong.screen.height
-            @y = Telepong.screen.height
+        if @y >= @boundaries.bottom
+            @y = @boundaries.bottom
             @speedY *= -1
 
         if @y <= 0
@@ -33,7 +51,7 @@ class Telepong.Puck
                 }
                 @away = true
 
-        if @x >= Telepong.screen.width or @x <= 0
+        if @x >= @boundaries.right or @x <= @boundaries.left
             @speedX *= -1
 
     mirror: (data) ->
