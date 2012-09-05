@@ -20,7 +20,7 @@ class Telepong.Puck extends Entity
         @height = 10
         @x = Math.floor Telepong.screen.width / 2
         @speedX = Math.ceil Math.random() * 5
-        @speedY = 10
+        @speedY = 15
         @away = false
 
         @boundaries = 
