@@ -15,14 +15,9 @@
 <canvas id="stage"></canvas>
 <script>
 (function(){
-
-    var stage = document.getElementById('stage')
-    stage.width = window.innerWidth
-    stage.height = window.innerHeight
-
-    var socket = io.connect('http://'+location.host)
-
-    new Telepong.Game(stage, socket).run()
-
+    Telepong.init({
+        render: Telepong.Canvas
+      , socket: io.connect('http://'+location.host)
+    })
 }())
 </script>

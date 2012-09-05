@@ -1,7 +1,12 @@
-class canvasRenderer
+# Canvas renderer
+# ---------------
+class Telepong.Canvas
     constructor: (@game) ->
         @running = false
 
+        Telepong.screen.width = window.innerWidth
+        Telepong.screen.height = window.innerHeight
+        
         @step = _.bind @step, @
 
     render: ->
