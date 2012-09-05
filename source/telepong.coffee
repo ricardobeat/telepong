@@ -14,6 +14,21 @@ _.extend Telepong,
         @game = new Game options.render
         @game.run()
 
+        @enableInput()
+
+    enableInput: ->
+        # TODO: detect touch/mouse/keyboard/etc
+        @enableKeyboardInput()
+
+    enableKeyboardInput: ->
+        document.body.addEventListener 'keydown', (e) =>
+            key_name = switch e.keyCode
+                when 38 then 'up'
+                when 40 then 'down'
+                when 37 then 'left'
+                when 39 then 'right'
+            @emit 'keypress', key_name
+
 
 # Game object
 # -----------
@@ -25,6 +40,7 @@ class Game
 
         # Initialize game objects.
         @puck = new Telepong.Puck
+        @paddle = new Telepong.Paddle
 
         @engine = new Telepong.Engine @
         @setListeners()

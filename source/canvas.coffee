@@ -27,15 +27,19 @@ class Telepong.Canvas
         # Clear the canvas
         @ctx.clearRect 0, 0, @canvas.width, @canvas.height
 
+        @ctx.fillStyle = '#fff'
+
         # Render the puck
         @renderPuck @game.puck
 
-        # Render player paddles
-        #@renderPaddle @game.paddle
+        # Render player paddle
+        @renderPaddle @game.paddle
 
     renderPuck: (puck) ->
-        @ctx.fillStyle = '#fff'
         @ctx.fillRect puck.x, puck.y, puck.width, puck.height
+
+    renderPaddle: (paddle) ->
+        @ctx.fillRect paddle.x, paddle.y, paddle.width, paddle.height
 
     start: ->
         @running = true

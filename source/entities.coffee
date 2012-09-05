@@ -59,3 +59,20 @@ class Telepong.Puck extends Entity
         @y = 10
         @speedX = data.speedX * -1
         @speedY = data.speedY * -1
+
+class Telepong.Paddle extends Entity
+    constructor: ->
+        super
+        @width = 200
+        @height = 20
+        @x = Telepong.screen.width/2 - @width/2
+        @y = Telepong.screen.height - 40
+
+        @setEventListeners()
+
+    setEventListeners: ->
+        Telepong.on 'keypress', (key) =>
+            if key is 'left' then @x -= 10
+            if key is 'right' then @x += 10
+
+    update: ->
