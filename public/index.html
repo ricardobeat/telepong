@@ -1,23 +1,27 @@
 <!DOCTYPE html>
-
-<meta name="viewport" content="width=device-width" />
-<title>Telepong</title>
-<style>
-    body {
-        background: #111;
-        overflow: hidden;
-    }
-</style>
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/underscore.js"></script>
-<script src="js/eventemitter2.js"></script>
-<script src="js/telepong.js"></script>
-<canvas id="stage"></canvas>
-<script>
-(function(){
-    Telepong.init({
-        render: Telepong.Canvas
-      , socket: io.connect('http://'+location.host)
-    })
-}())
-</script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Telepong</title>
+    <style>
+        html, body {
+            margin: 0;
+            background: #111;
+            overflow: hidden;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/eventemitter2.js"></script>
+    <script src="js/telepong.js"></script>
+</head>
+<body>
+    <script>
+    (function(){
+        Telepong.init({
+            render: Telepong.Canvas
+          , socket: io.connect('http://'+location.host)
+        })
+    }())
+    </script>
+</body>
