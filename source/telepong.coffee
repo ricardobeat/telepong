@@ -5,41 +5,70 @@
 # and emits events for communication between them.
 Telepong = new EventEmitter
 
+_.extend Telepong,
+    renderer: null
+
+# Game engine
+# -----------
+# This is the logic loop. It's completely independent from the render loop.
+class Engine
+    constructor: (@game) ->
+        @fps = 30
+        @step = 1/@fps
+
+        @delta = 0
+        @last_step = 0
+        @logic_delta = 0
+        @render_delta = 0
+
+        @frame = 0
+
+        @step = _.bind @step, @
+
+    start: ->
+        now = Date.now()
+        @delta = Math.min 1, (now - @last_step) / 1000
+        @logic_delta += @delta
+
+        # step logic
+        while @logic_delta > @step
+            @logic_delta -= @step
+            @game.update()
+
+        @last_step = now
+
 # Game object
 # -----------
 # Holds game state and object instances.
 class Game
-    constructor: (@stage, @socket) ->
+    constructor: (@renderer) ->
 
-        @ctx = @stage.getContext '2d'
+        # Initialize game objects.
         @puck = new Telepong.Puck
-        @setBindings()
+
+        @engine = new Engine @
         @setListeners()
 
-    setBindings: ->
-        @step = @step.bind @
+        # Bind all methods to the instance permanently.
+        _.bindAll @
 
+    # Add event listeners.
     setListeners: ->
-        @socket.on 'getBall', (data) =>
-            @getBall data
+        Telepong.on 'getBall', @getBall
 
     run: ->
-        @running = true
-        @step()
-
-    step: ->
-        @puck.step()
-        @render()
-        requestAnimationFrame @step
+        @engine.start()
+        @renderer.start()
 
     stop: ->
-        @running = false
+        @engine.stop()
+        @renderer.stop()
 
-    render: ->
-        @ctx.clearRect 0, 0, @stage.width, @stage.height
+    update: ->
+        @puck.update()
 
     passBall: (data) ->
-        @socket.emit 'passBall', data
+        Telepong.emit 'passBall', data
 
     getBall: (data) ->
         @puck.mirror data

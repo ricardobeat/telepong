@@ -3,8 +3,8 @@ flour = require 'flour'
 task 'build', ->
 
     bundle [
-        'lib/utils.coffee'
-        'lib/telepong.coffee'
+        'source/utils.coffee'
+        'source/telepong.coffee'
     ], 'public/js/telepong.js'
 
 task 'watch', ->
