@@ -8,6 +8,7 @@ task 'build', ->
         'source/engine.coffee'
         'source/entities.coffee'
         'source/canvas.coffee'
+        'source/css.coffee'
     ], 'public/js/telepong.js'
 
 task 'watch', ->
