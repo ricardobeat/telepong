@@ -19,3 +19,4 @@ io.sockets.on 'connection', (socket) ->
         socket.broadcast.emit 'getBall', data
 
 server.listen 8000
+console.log "Listening on port 8000"
