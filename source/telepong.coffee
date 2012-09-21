@@ -55,7 +55,7 @@ class Game
 
     # Add event listeners.
     setListeners: ->
-        Telepong.on 'getBall', @getBall
+        Telepong.socket.on 'getBall', (data) => @getBall data
 
     run: ->
         @engine.start()
@@ -70,9 +70,11 @@ class Game
         @paddle.update()
 
     passBall: (data) ->
-        Telepong.emit 'passBall', data
+        console.log "Sending ball away", data
+        Telepong.socket.emit 'passBall', data
 
     getBall: (data) ->
+        console.log "Receiving ball", data
         @puck.mirror data
 
 # Export globals

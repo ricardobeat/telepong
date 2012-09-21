@@ -48,11 +48,7 @@ class Telepong.Puck extends Entity
             @speedX = Math.floor ((@x - paddleCenter) / @game.paddle.width) * 15
 
         else if @y <= 0
-            @speedY *= -1
-            return
 
-            @speedY = 0
-            @y = -20
             unless @away
                 Telepong.game.passBall {
                     x: (@x / Telepong.screen.width).toFixed(2)
@@ -61,11 +57,15 @@ class Telepong.Puck extends Entity
                 }
                 @away = true
 
+            @speedY = 0
+            @y = -20
+
         if @x >= @boundaries.right or @x <= @boundaries.left
             @speedX *= -1
 
     mirror: (data) ->
-        @x = (1 - @x) * Telepong.screen.width
+        @away = false
+        @x = (1 - data.x) * Telepong.screen.width
         @y = 10
         @speedX = data.speedX * -1
         @speedY = data.speedY * -1
