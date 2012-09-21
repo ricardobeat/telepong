@@ -39,7 +39,7 @@ class Telepong.Canvas
         @renderPaddle @game.paddle
 
     renderPuck: (puck) ->
-        @ctx.clearRect @last_puck_position.x, @last_puck_position.y, puck.width, puck.height
+        @ctx.clearRect @last_puck_position.x-2, @last_puck_position.y-2, puck.width+4, puck.height+4
         @ctx.fillRect puck.x, puck.y, puck.width, puck.height
         @last_puck_position.x = puck.x
         @last_puck_position.y = puck.y
